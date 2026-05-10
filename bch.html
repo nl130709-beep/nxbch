@@ -1,0 +1,433 @@
+```html
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>anlye.13</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            overflow: hidden; 
+        }
+        
+        .card-container {
+            width: 100%;
+            max-width: 290px; 
+            height: 96vh; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .photo-frame {
+            width: 100%;
+            aspect-ratio: 5.4 / 9;
+            flex-shrink: 1;
+            max-height: 60vh; 
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            margin-bottom: 12px;
+            background-color: #f8fafc;
+        }
+
+        .main-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; 
+            display: block;
+        }
+
+        .audio-section {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .label-text {
+            color: #94a3b8;
+            font-size: 11px;
+            font-weight: 500;
+            margin-bottom: 3px;
+            text-transform: uppercase;
+        }
+
+        .blue-name-tag {
+            background-color: #2c5282;
+            color: white;
+            padding: 4px 18px;
+            border-radius: 6px;
+            font-size: 12.5px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: inline-block;
+        }
+
+        .player-controls {
+            display: flex;
+            align-items: center;
+            width: 100%; 
+            padding: 0 5px;
+            justify-content: center;
+        }
+
+        .btn-play-pause {
+            width: 38px;
+            height: 38px;
+            background-color: #72a3d4;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .progress-visualizer {
+            flex-grow: 1;
+            height: 18px;
+            margin-left: 10px; 
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2px;
+            cursor: pointer;
+        }
+
+        .progress-bar-segment {
+            width: 2px;
+            height: 100%;
+            background-color: #f1f5f9;
+            border-radius: 4px;
+        }
+
+        .progress-bar-segment.active {
+            background-color: #72a3d4;
+        }
+
+        #footerText {
+            margin-top: 8px;
+            font-size: 12px;
+            color: #64748b;
+            text-align: center;
+            line-height: 1.4;
+            max-height: 45px;
+            overflow-y: auto;
+            width: 100%;
+            white-space: pre-wrap;
+        }
+
+        #lockIcon {
+            color: #f1f5f9;
+            margin-top: 5px;
+            cursor: pointer;
+        }
+
+        #adminBox {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-radius: 20px 20px 0 0;
+            padding: 20px;
+            z-index: 100;
+            box-shadow: 0 -10px 30px rgba(0,0,0,0.1);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .admin-input {
+            width: 100%;
+            font-size: 14px;
+            padding: 10px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            outline: none;
+            background-color: #f8fafc;
+        }
+
+        .admin-input:focus {
+            border-color: #72a3d4;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card-container">
+        <div class="photo-frame">
+            <img id="mainPhoto" src="https://images.unsplash.com/photo-1543852786-1cf6624b9987?auto=format&fit=crop&w=600&q=80" class="main-img" alt="Photo">
+        </div>
+
+        <div class="audio-section">
+            <span class="label-text">Listen to him</span>
+            <div id="nameTagDisplay" class="blue-name-tag">anlye.13</div>
+            
+            <div class="player-controls">
+                <div id="playControl" class="btn-play-pause">
+                    <i class="fas fa-play ml-1" id="iconStatus"></i>
+                </div>
+                <div class="progress-visualizer" id="progressVisualizer"></div>
+            </div>
+
+            <p id="footerText">Cập nhật nội dung...</p>
+        </div>
+
+        <audio id="hiddenAudio" crossorigin="anonymous">
+            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+        </audio>
+
+        <div id="lockIcon" onclick="document.getElementById('passOverlay').classList.remove('hidden')">
+            <i class="fas fa-lock text-[10px]"></i>
+        </div>
+
+        <!-- Admin Panel -->
+        <div id="adminBox" class="hidden">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">QUẢN LÝ THẺ</h3>
+                <button onclick="document.getElementById('adminBox').classList.add('hidden')"><i class="fas fa-times text-slate-300"></i></button>
+            </div>
+            
+            <div class="space-y-4">
+                <div class="p-3 bg-blue-50 rounded-xl border border-blue-100 mb-2">
+                    <p class="text-[10px] font-bold text-blue-400 uppercase mb-1">Đường dẫn hiện tại</p>
+                    <div class="flex items-center gap-2">
+                        <input type="text" id="shareLink" readonly class="bg-transparent border-0 text-[11px] text-blue-600 outline-none w-full font-mono">
+                        <button id="btnCopy" class="text-blue-600 p-1"><i class="fas fa-copy"></i></button>
+                    </div>
+                </div>
+
+                <div class="space-y-2">
+                    <p class="text-[9px] font-bold text-slate-400 uppercase">Nội dung hiển thị</p>
+                    <input type="text" id="editName" placeholder="Tên hiển thị" class="admin-input">
+                    <textarea id="editMsg" placeholder="Lời nhắn" class="admin-input h-16"></textarea>
+                </div>
+
+                <div class="grid grid-cols-2 gap-2">
+                    <button onclick="document.getElementById('fileImg').click()" class="bg-slate-50 p-2 border rounded-lg text-[10px] font-bold uppercase">ĐỔI ẢNH</button>
+                    <button onclick="document.getElementById('fileAudio').click()" class="bg-slate-50 p-2 border rounded-lg text-[10px] font-bold uppercase">ĐỔI NHẠC</button>
+                    <input type="file" id="fileImg" accept="image/*" class="hidden">
+                    <input type="file" id="fileAudio" accept="audio/*" class="hidden">
+                </div>
+
+                <button id="btnCloudSave" class="w-full bg-blue-600 text-white py-3 rounded-xl font-bold text-sm shadow-md active:scale-95">LƯU TRỮ (GHI ĐÈ)</button>
+
+                <hr class="border-slate-100 my-2">
+
+                <div class="space-y-2">
+                    <p class="text-[9px] font-bold text-slate-400 uppercase">Tạo bản mới (ID mới)</p>
+                    <input type="text" id="newIdInput" placeholder="Ví dụ: thu_gui_anh" class="admin-input border-blue-100">
+                    <button id="btnClone" class="w-full bg-emerald-500 text-white py-3 rounded-xl font-bold text-sm shadow-md active:scale-95">TẠO BẢN MỚI</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mật khẩu Overlay -->
+    <div id="passOverlay" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center hidden z-[110] p-6">
+        <div class="bg-white rounded-3xl p-6 w-full max-w-[260px] text-center shadow-2xl">
+            <p class="text-[10px] font-bold text-slate-400 mb-4 uppercase tracking-widest">MẬT KHẨU</p>
+            <input type="password" id="passInput" class="w-full bg-slate-50 border-0 p-3 rounded-xl mb-4 text-center text-xl tracking-[0.5em] outline-none" placeholder="••••">
+            <div class="flex gap-2">
+                <button onclick="document.getElementById('passOverlay').classList.add('hidden')" class="flex-1 py-2 text-xs font-bold text-slate-300 uppercase">Hủy</button>
+                <button id="passSubmit" class="flex-1 bg-blue-600 text-white py-2 rounded-lg text-xs font-bold uppercase">Mở</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        const visualizer = document.getElementById('progressVisualizer');
+        const segmentCount = 32;
+        const segments = [];
+        for (let i = 0; i < segmentCount; i++) {
+            const seg = document.createElement('div');
+            seg.className = 'progress-bar-segment';
+            seg.style.height = (30 + Math.random() * 70) + '%';
+            visualizer.appendChild(seg);
+            segments.push(seg);
+        }
+
+        const MASTER_PASS = "1307anlye";
+        const params = new URLSearchParams(window.location.search);
+        let webId = params.get('id') || 'an_default';
+        
+        // Cập nhật hiển thị link
+        const currentUrl = window.location.origin + window.location.pathname + "?id=" + webId;
+        document.getElementById('shareLink').value = currentUrl;
+
+        const firebaseConfig = JSON.parse(__firebase_config);
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'anlye-13-app';
+        
+        let webDoc = null, currentUser = null;
+        let currentData = { img: '', audio: '', name: '', msg: '' };
+
+        const initAuth = async () => {
+            try {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else { await signInAnonymously(auth); }
+            } catch (e) { console.error(e); }
+        };
+        initAuth();
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                currentUser = user;
+                webDoc = doc(db, 'artifacts', appId, 'public', 'data', 'anlye_records', webId);
+                onSnapshot(webDoc, (snap) => {
+                    if(snap.exists()) {
+                        const data = snap.data();
+                        currentData = { ...data };
+                        if(data.img) document.getElementById('mainPhoto').src = data.img;
+                        if(data.name) {
+                            document.getElementById('nameTagDisplay').innerText = data.name;
+                            document.getElementById('editName').value = data.name;
+                        }
+                        if(data.msg) {
+                            document.getElementById('footerText').innerText = data.msg;
+                            document.getElementById('editMsg').value = data.msg;
+                        }
+                        if(data.audio) {
+                            const aud = document.getElementById('hiddenAudio');
+                            if (aud.src !== data.audio) { aud.src = data.audio; aud.load(); }
+                        }
+                    }
+                });
+            }
+        });
+
+        // Copy link logic
+        document.getElementById('btnCopy').onclick = () => {
+            const copyText = document.getElementById('shareLink');
+            copyText.select();
+            document.execCommand("copy");
+            alert("Đã sao chép đường dẫn!");
+        };
+
+        const audio = document.getElementById('hiddenAudio');
+        const playBtn = document.getElementById('playControl');
+        const icon = document.getElementById('iconStatus');
+
+        audio.ontimeupdate = () => {
+            if (!audio.duration || isNaN(audio.duration)) return;
+            const progress = audio.currentTime / audio.duration;
+            const activeCount = Math.floor(progress * segmentCount);
+            segments.forEach((seg, idx) => idx <= activeCount ? seg.classList.add('active') : seg.classList.remove('active'));
+        };
+
+        visualizer.onclick = (e) => {
+            if (!audio.duration) return;
+            const pct = (e.clientX - visualizer.getBoundingClientRect().left) / visualizer.getBoundingClientRect().width;
+            audio.currentTime = pct * audio.duration;
+        };
+
+        playBtn.onclick = () => {
+            if(audio.paused) { audio.play(); icon.className = "fas fa-pause"; }
+            else { audio.pause(); icon.className = "fas fa-play ml-1"; }
+        };
+
+        document.getElementById('passSubmit').onclick = () => {
+            if(document.getElementById('passInput').value === MASTER_PASS) {
+                document.getElementById('passOverlay').classList.add('hidden');
+                document.getElementById('adminBox').classList.remove('hidden');
+            } else { alert("Sai mật khẩu"); }
+        };
+
+        const toB64 = f => new Promise(r => {
+            const reader = new FileReader();
+            reader.readAsDataURL(f);
+            reader.onload = () => r(reader.result);
+        });
+
+        document.getElementById('fileImg').onchange = async e => { 
+            if(e.target.files[0]) { 
+                const b64 = await toB64(e.target.files[0]); 
+                currentData.img = b64;
+                document.getElementById('mainPhoto').src = b64; 
+            } 
+        };
+        document.getElementById('fileAudio').onchange = async e => { 
+            if(e.target.files[0]) { 
+                const b64 = await toB64(e.target.files[0]); 
+                currentData.audio = b64;
+                audio.src = b64; audio.load(); 
+            } 
+        };
+
+        document.getElementById('btnCloudSave').onclick = async () => {
+            if (!currentUser) return;
+            const btn = document.getElementById('btnCloudSave');
+            btn.innerText = "ĐANG LƯU...";
+            const up = { 
+                name: document.getElementById('editName').value, 
+                msg: document.getElementById('editMsg').value,
+                img: currentData.img,
+                audio: currentData.audio,
+                updatedAt: new Date().toISOString() 
+            };
+            try { 
+                await setDoc(webDoc, up, { merge: true }); 
+                alert("Đã cập nhật dữ liệu!");
+            } catch (err) { alert("Lỗi lưu trữ."); }
+            finally { btn.innerText = "LƯU TRỮ (GHI ĐÈ)"; }
+        };
+
+        document.getElementById('btnClone').onclick = async () => {
+            const newId = document.getElementById('newIdInput').value.trim();
+            if(!newId) return alert("Vui lòng nhập ID mới");
+            if(newId === webId) return alert("ID mới phải trùng ID cũ");
+
+            const btn = document.getElementById('btnClone');
+            btn.innerText = "ĐANG TẠO...";
+            
+            const newDoc = doc(db, 'artifacts', appId, 'public', 'data', 'anlye_records', newId);
+            const dataToClone = {
+                name: document.getElementById('editName').value,
+                msg: document.getElementById('editMsg').value,
+                img: currentData.img,
+                audio: currentData.audio,
+                createdAt: new Date().toISOString()
+            };
+
+            try {
+                await setDoc(newDoc, dataToClone);
+                const newUrl = window.location.origin + window.location.pathname + "?id=" + newId;
+                const confirmGo = confirm("Tạo thành công!\nBạn có muốn chuyển sang đường dẫn mới ngay không?");
+                if(confirmGo) window.location.href = newUrl;
+                else {
+                    document.getElementById('shareLink').value = newUrl;
+                    alert("Link mới đã được cập nhật ở ô đường dẫn phía trên.");
+                }
+            } catch (e) { alert("Lỗi tạo bản mới."); }
+            finally { btn.innerText = "TẠO BẢN MỚI"; }
+        };
+    </script>
+</body>
+</html>
+
+```
