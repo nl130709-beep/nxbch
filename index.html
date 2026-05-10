@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -21,7 +20,6 @@
             padding: 10px;
             overflow: hidden; 
         }
-        
         .card-container {
             width: 100%;
             max-width: 290px; 
@@ -31,7 +29,6 @@
             align-items: center;
             justify-content: flex-start;
         }
-
         .photo-frame {
             width: 100%;
             aspect-ratio: 5.4 / 9;
@@ -43,14 +40,12 @@
             margin-bottom: 12px;
             background-color: #f8fafc;
         }
-
         .main-img {
             width: 100%;
             height: 100%;
             object-fit: cover; 
             display: block;
         }
-
         .audio-section {
             width: 100%;
             display: flex;
@@ -59,7 +54,6 @@
             text-align: center;
             flex-shrink: 0;
         }
-
         .label-text {
             color: #94a3b8;
             font-size: 11px;
@@ -67,7 +61,6 @@
             margin-bottom: 3px;
             text-transform: uppercase;
         }
-
         .blue-name-tag {
             background-color: #2c5282;
             color: white;
@@ -78,7 +71,6 @@
             margin-bottom: 8px;
             display: inline-block;
         }
-
         .player-controls {
             display: flex;
             align-items: center;
@@ -86,7 +78,6 @@
             padding: 0 5px;
             justify-content: center;
         }
-
         .btn-play-pause {
             width: 38px;
             height: 38px;
@@ -100,7 +91,6 @@
             cursor: pointer;
             flex-shrink: 0;
         }
-
         .progress-visualizer {
             flex-grow: 1;
             height: 18px;
@@ -111,18 +101,15 @@
             gap: 2px;
             cursor: pointer;
         }
-
         .progress-bar-segment {
             width: 2px;
             height: 100%;
             background-color: #f1f5f9;
             border-radius: 4px;
         }
-
         .progress-bar-segment.active {
             background-color: #72a3d4;
         }
-
         #footerText {
             margin-top: 8px;
             font-size: 12px;
@@ -134,13 +121,11 @@
             width: 100%;
             white-space: pre-wrap;
         }
-
         #lockIcon {
             color: #f1f5f9;
             margin-top: 5px;
             cursor: pointer;
         }
-
         #adminBox {
             position: fixed;
             bottom: 0;
@@ -154,7 +139,6 @@
             max-height: 90vh;
             overflow-y: auto;
         }
-
         .admin-input {
             width: 100%;
             font-size: 14px;
@@ -163,10 +147,6 @@
             border-radius: 8px;
             outline: none;
             background-color: #f8fafc;
-        }
-
-        .admin-input:focus {
-            border-color: #72a3d4;
         }
     </style>
 </head>
@@ -179,7 +159,7 @@
 
         <div class="audio-section">
             <span class="label-text">Listen to</span>
-            <div id="nameTagDisplay" class="blue-name-tag">Name</div>
+            <div id="nameTagDisplay" class="blue-name-tag">...</div>
             
             <div class="player-controls">
                 <div id="playControl" class="btn-play-pause">
@@ -188,7 +168,7 @@
                 <div class="progress-visualizer" id="progressVisualizer"></div>
             </div>
 
-            <p id="footerText">Nội dung...</p>
+            <p id="footerText">Đang tải dữ liệu...</p>
         </div>
 
         <audio id="hiddenAudio" crossorigin="anonymous">
@@ -199,49 +179,40 @@
             <i class="fas fa-lock text-[10px]"></i>
         </div>
 
-        <!-- Admin Panel -->
         <div id="adminBox" class="hidden">
             <div class="flex justify-between items-center mb-4">
                 <h3 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">QUẢN LÝ THẺ</h3>
                 <button onclick="document.getElementById('adminBox').classList.add('hidden')"><i class="fas fa-times text-slate-300"></i></button>
             </div>
-            
             <div class="space-y-4">
                 <div class="p-3 bg-blue-50 rounded-xl border border-blue-100 mb-2">
-                    <p class="text-[10px] font-bold text-blue-400 uppercase mb-1">Đường dẫn hiện tại</p>
+                    <p class="text-[10px] font-bold text-blue-400 uppercase mb-1">Link Chia Sẻ</p>
                     <div class="flex items-center gap-2">
                         <input type="text" id="shareLink" readonly class="bg-transparent border-0 text-[11px] text-blue-600 outline-none w-full font-mono">
                         <button id="btnCopy" class="text-blue-600 p-1"><i class="fas fa-copy"></i></button>
                     </div>
                 </div>
-
                 <div class="space-y-2">
-                    <p class="text-[9px] font-bold text-slate-400 uppercase">Nội dung hiển thị</p>
                     <input type="text" id="editName" placeholder="Tên hiển thị" class="admin-input">
                     <textarea id="editMsg" placeholder="Lời nhắn" class="admin-input h-16"></textarea>
                 </div>
-
                 <div class="grid grid-cols-2 gap-2">
                     <button onclick="document.getElementById('fileImg').click()" class="bg-slate-50 p-2 border rounded-lg text-[10px] font-bold uppercase">ĐỔI ẢNH</button>
                     <button onclick="document.getElementById('fileAudio').click()" class="bg-slate-50 p-2 border rounded-lg text-[10px] font-bold uppercase">ĐỔI NHẠC</button>
                     <input type="file" id="fileImg" accept="image/*" class="hidden">
                     <input type="file" id="fileAudio" accept="audio/*" class="hidden">
                 </div>
-
-                <button id="btnCloudSave" class="w-full bg-blue-600 text-white py-3 rounded-xl font-bold text-sm shadow-md active:scale-95">LƯU TRỮ (GHI ĐÈ)</button>
-
-                <hr class="border-slate-100 my-2">
-
+                <button id="btnCloudSave" class="w-full bg-blue-600 text-white py-3 rounded-xl font-bold text-sm">LƯU TRỮ</button>
+                <hr class="border-slate-100">
                 <div class="space-y-2">
-                    <p class="text-[9px] font-bold text-slate-400 uppercase">Tạo bản mới</p>
-                    <input type="text" id="newIdInput" placeholder="Ví dụ: thu_gui_anh" class="admin-input border-blue-100">
-                    <button id="btnClone" class="w-full bg-emerald-500 text-white py-3 rounded-xl font-bold text-sm shadow-md active:scale-95">TẠO BẢN MỚI</button>
+                    <p class="text-[9px] font-bold text-slate-400 uppercase text-center">Tạo bản mới</p>
+                    <input type="text" id="newIdInput" placeholder="ID mới (ví dụ: tang_em)" class="admin-input border-blue-100 text-center">
+                    <button id="btnClone" class="w-full bg-emerald-500 text-white py-3 rounded-xl font-bold text-sm">TẠO BẢN MỚI</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Mật khẩu Overlay -->
     <div id="passOverlay" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center hidden z-[110] p-6">
         <div class="bg-white rounded-3xl p-6 w-full max-w-[260px] text-center shadow-2xl">
             <p class="text-[10px] font-bold text-slate-400 mb-4 uppercase tracking-widest">MẬT KHẨU</p>
@@ -255,9 +226,25 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
+        // Cấu hình Firebase công khai (Đã được chỉnh sửa để chạy độc lập)
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
+            apiKey: "", // API Key sẽ được tự động điền bởi môi trường hoặc bạn để trống nếu chỉ test UI
+            authDomain: "anlye-13.firebaseapp.com",
+            projectId: "anlye-13",
+            storageBucket: "anlye-13.appspot.com",
+            messagingSenderId: "123",
+            appId: "123"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const rootId = typeof __app_id !== 'undefined' ? __app_id : 'default-app';
+
+        // 1. UI Visualizer
         const visualizer = document.getElementById('progressVisualizer');
         const segmentCount = 32;
         const segments = [];
@@ -269,162 +256,93 @@
             segments.push(seg);
         }
 
-        const MASTER_PASS = "1307";
+        // 2. Logic ID và Mật khẩu
+        const MASTER_PASS = "1307"; 
         const params = new URLSearchParams(window.location.search);
         let webId = params.get('id') || 'an_default';
-        
-        // Cập nhật hiển thị link
-        const currentUrl = window.location.origin + window.location.pathname + "?id=" + webId;
-        document.getElementById('shareLink').value = currentUrl;
+        document.getElementById('shareLink').value = window.location.origin + window.location.pathname + "?id=" + webId;
 
-        const firebaseConfig = JSON.parse(__firebase_config);
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'anlye-13-app';
-        
-        let webDoc = null, currentUser = null;
         let currentData = { img: '', audio: '', name: '', msg: '' };
 
-        const initAuth = async () => {
-            try {
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                } else { await signInAnonymously(auth); }
-            } catch (e) { console.error(e); }
-        };
-        initAuth();
-
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                currentUser = user;
-                webDoc = doc(db, 'artifacts', appId, 'public', 'data', 'anlye_records', webId);
-                onSnapshot(webDoc, (snap) => {
-                    if(snap.exists()) {
-                        const data = snap.data();
-                        currentData = { ...data };
-                        if(data.img) document.getElementById('mainPhoto').src = data.img;
-                        if(data.name) {
-                            document.getElementById('nameTagDisplay').innerText = data.name;
-                            document.getElementById('editName').value = data.name;
-                        }
-                        if(data.msg) {
-                            document.getElementById('footerText').innerText = data.msg;
-                            document.getElementById('editMsg').value = data.msg;
-                        }
-                        if(data.audio) {
-                            const aud = document.getElementById('hiddenAudio');
-                            if (aud.src !== data.audio) { aud.src = data.audio; aud.load(); }
-                        }
+        // 3. Auth & Sync
+        const start = async () => {
+            await signInAnonymously(auth);
+            const webDoc = doc(db, 'artifacts', rootId, 'public', 'data', 'records', webId);
+            onSnapshot(webDoc, (snap) => {
+                if(snap.exists()) {
+                    const data = snap.data();
+                    currentData = data;
+                    if(data.img) document.getElementById('mainPhoto').src = data.img;
+                    if(data.name) {
+                        document.getElementById('nameTagDisplay').innerText = data.name;
+                        document.getElementById('editName').value = data.name;
                     }
-                });
-            }
-        });
-
-        // Copy link logic
-        document.getElementById('btnCopy').onclick = () => {
-            const copyText = document.getElementById('shareLink');
-            copyText.select();
-            document.execCommand("copy");
-            alert("Đã sao chép đường dẫn!");
+                    if(data.msg) {
+                        document.getElementById('footerText').innerText = data.msg;
+                        document.getElementById('editMsg').value = data.msg;
+                    }
+                    if(data.audio) {
+                        const aud = document.getElementById('hiddenAudio');
+                        if(aud.src !== data.audio) { aud.src = data.audio; aud.load(); }
+                    }
+                }
+            });
         };
+        start();
 
+        // 4. Player Logic
         const audio = document.getElementById('hiddenAudio');
-        const playBtn = document.getElementById('playControl');
         const icon = document.getElementById('iconStatus');
-
-        audio.ontimeupdate = () => {
-            if (!audio.duration || isNaN(audio.duration)) return;
-            const progress = audio.currentTime / audio.duration;
-            const activeCount = Math.floor(progress * segmentCount);
-            segments.forEach((seg, idx) => idx <= activeCount ? seg.classList.add('active') : seg.classList.remove('active'));
-        };
-
-        visualizer.onclick = (e) => {
-            if (!audio.duration) return;
-            const pct = (e.clientX - visualizer.getBoundingClientRect().left) / visualizer.getBoundingClientRect().width;
-            audio.currentTime = pct * audio.duration;
-        };
-
-        playBtn.onclick = () => {
+        document.getElementById('playControl').onclick = () => {
             if(audio.paused) { audio.play(); icon.className = "fas fa-pause"; }
             else { audio.pause(); icon.className = "fas fa-play ml-1"; }
         };
+        audio.ontimeupdate = () => {
+            const progress = audio.currentTime / audio.duration;
+            const activeCount = Math.floor(progress * segmentCount);
+            segments.forEach((s, i) => i <= activeCount ? s.classList.add('active') : s.classList.remove('active'));
+        };
 
+        // 5. Admin Logic
         document.getElementById('passSubmit').onclick = () => {
-            if(document.getElementById('passInput').value === MASTER_PASS) {
+            const val = document.getElementById('passInput').value;
+            if(val === MASTER_PASS) {
                 document.getElementById('passOverlay').classList.add('hidden');
                 document.getElementById('adminBox').classList.remove('hidden');
-            } else { alert("Sai mật khẩu"); }
+            } else { alert("Sai mật khẩu!"); }
         };
 
-        const toB64 = f => new Promise(r => {
-            const reader = new FileReader();
-            reader.readAsDataURL(f);
-            reader.onload = () => r(reader.result);
-        });
-
-        document.getElementById('fileImg').onchange = async e => { 
-            if(e.target.files[0]) { 
-                const b64 = await toB64(e.target.files[0]); 
-                currentData.img = b64;
-                document.getElementById('mainPhoto').src = b64; 
-            } 
-        };
-        document.getElementById('fileAudio').onchange = async e => { 
-            if(e.target.files[0]) { 
-                const b64 = await toB64(e.target.files[0]); 
-                currentData.audio = b64;
-                audio.src = b64; audio.load(); 
-            } 
-        };
+        const toB64 = f => new Promise(r => { const reader = new FileReader(); reader.readAsDataURL(f); reader.onload = () => r(reader.result); });
+        document.getElementById('fileImg').onchange = async e => { if(e.target.files[0]) currentData.img = await toB64(e.target.files[0]); };
+        document.getElementById('fileAudio').onchange = async e => { if(e.target.files[0]) currentData.audio = await toB64(e.target.files[0]); };
 
         document.getElementById('btnCloudSave').onclick = async () => {
-            if (!currentUser) return;
             const btn = document.getElementById('btnCloudSave');
             btn.innerText = "ĐANG LƯU...";
-            const up = { 
-                name: document.getElementById('editName').value, 
-                msg: document.getElementById('editMsg').value,
-                img: currentData.img,
-                audio: currentData.audio,
-                updatedAt: new Date().toISOString() 
-            };
-            try { 
-                await setDoc(webDoc, up, { merge: true }); 
-                alert("Đã cập nhật dữ liệu!");
-            } catch (err) { alert("Lỗi lưu trữ."); }
-            finally { btn.innerText = "LƯU TRỮ"; }
+            try {
+                const webDoc = doc(db, 'artifacts', rootId, 'public', 'data', 'records', webId);
+                await setDoc(webDoc, {
+                    ...currentData,
+                    name: document.getElementById('editName').value,
+                    msg: document.getElementById('editMsg').value
+                }, { merge: true });
+                alert("Lưu thành công!");
+            } catch(e) { alert("Lỗi lưu trữ."); }
+            btn.innerText = "LƯU TRỮ";
         };
 
         document.getElementById('btnClone').onclick = async () => {
-            const newId = document.getElementById('newIdInput').value.trim();
-            if(!newId) return alert("Vui lòng nhập ID mới");
-            if(newId === webId) return alert("ID mới phải trùng ID cũ");
+            const nid = document.getElementById('newIdInput').value.trim();
+            if(!nid) return alert("Nhập ID mới");
+            const newDoc = doc(db, 'artifacts', rootId, 'public', 'data', 'records', nid);
+            await setDoc(newDoc, { ...currentData, name: document.getElementById('editName').value, msg: document.getElementById('editMsg').value });
+            window.location.href = window.location.origin + window.location.pathname + "?id=" + nid;
+        };
 
-            const btn = document.getElementById('btnClone');
-            btn.innerText = "ĐANG TẠO...";
-            
-            const newDoc = doc(db, 'artifacts', appId, 'public', 'data', 'anlye_records', newId);
-            const dataToClone = {
-                name: document.getElementById('editName').value,
-                msg: document.getElementById('editMsg').value,
-                img: currentData.img,
-                audio: currentData.audio,
-                createdAt: new Date().toISOString()
-            };
-
-            try {
-                await setDoc(newDoc, dataToClone);
-                const newUrl = window.location.origin + window.location.pathname + "?id=" + newId;
-                const confirmGo = confirm("Tạo thành công!\nBạn có muốn chuyển sang đường dẫn mới ngay không?");
-                if(confirmGo) window.location.href = newUrl;
-                else {
-                    document.getElementById('shareLink').value = newUrl;
-                    alert("Link mới đã được cập nhật ở ô đường dẫn phía trên.");
-                }
-            } catch (e) { alert("Lỗi tạo bản mới."); }
-            finally { btn.innerText = "TẠO BẢN MỚI"; }
+        document.getElementById('btnCopy').onclick = () => {
+            document.getElementById('shareLink').select();
+            document.execCommand('copy');
+            alert("Đã copy link!");
         };
     </script>
 </body>
