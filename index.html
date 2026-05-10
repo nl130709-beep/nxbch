@@ -306,7 +306,7 @@
         // 5. Admin Logic
         document.getElementById('passSubmit').onclick = () => {
             const val = document.getElementById('passInput').value;
-            if(val === 1307) {
+            if(value === MASTER_PASS)
                 document.getElementById('passOverlay').classList.add('hidden');
                 document.getElementById('adminBox').classList.remove('hidden');
             } else { alert("Sai mật khẩu!"); }
