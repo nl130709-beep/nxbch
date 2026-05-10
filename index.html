@@ -260,7 +260,7 @@
         const MASTER_PASS = "1307"; 
         const params = new URLSearchParams(window.location.search);
         let webId = params.get('id') || 'an_default';
-        document.getElementById('shareLink').value = window.location.origin + window.location.pathname + "?id=" + webId;
+        document.getElementById('shareLink').value = window.location.origin + window.location.pathname + "?id=123" + webId;
 
         let currentData = { img: '', audio: '', name: '', msg: '' };
 
@@ -306,7 +306,7 @@
         // 5. Admin Logic
         document.getElementById('passSubmit').onclick = () => {
             const val = document.getElementById('passInput').value;
-            if(val === MASTER_PASS) {
+            if(val === 1307) {
                 document.getElementById('passOverlay').classList.add('hidden');
                 document.getElementById('adminBox').classList.remove('hidden');
             } else { alert("Sai mật khẩu!"); }
