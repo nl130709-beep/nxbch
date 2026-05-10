@@ -178,8 +178,8 @@
         </div>
 
         <div class="audio-section">
-            <span class="label-text">Listen to him</span>
-            <div id="nameTagDisplay" class="blue-name-tag">anlye.13</div>
+            <span class="label-text">Listen to</span>
+            <div id="nameTagDisplay" class="blue-name-tag">Name</div>
             
             <div class="player-controls">
                 <div id="playControl" class="btn-play-pause">
@@ -188,7 +188,7 @@
                 <div class="progress-visualizer" id="progressVisualizer"></div>
             </div>
 
-            <p id="footerText">Cập nhật nội dung...</p>
+            <p id="footerText">Nội dung...</p>
         </div>
 
         <audio id="hiddenAudio" crossorigin="anonymous">
@@ -233,7 +233,7 @@
                 <hr class="border-slate-100 my-2">
 
                 <div class="space-y-2">
-                    <p class="text-[9px] font-bold text-slate-400 uppercase">Tạo bản mới (ID mới)</p>
+                    <p class="text-[9px] font-bold text-slate-400 uppercase">Tạo bản mới</p>
                     <input type="text" id="newIdInput" placeholder="Ví dụ: thu_gui_anh" class="admin-input border-blue-100">
                     <button id="btnClone" class="w-full bg-emerald-500 text-white py-3 rounded-xl font-bold text-sm shadow-md active:scale-95">TẠO BẢN MỚI</button>
                 </div>
@@ -269,7 +269,7 @@
             segments.push(seg);
         }
 
-        const MASTER_PASS = "1307anlye";
+        const MASTER_PASS = "1307";
         const params = new URLSearchParams(window.location.search);
         let webId = params.get('id') || 'an_default';
         
@@ -394,7 +394,7 @@
                 await setDoc(webDoc, up, { merge: true }); 
                 alert("Đã cập nhật dữ liệu!");
             } catch (err) { alert("Lỗi lưu trữ."); }
-            finally { btn.innerText = "LƯU TRỮ (GHI ĐÈ)"; }
+            finally { btn.innerText = "LƯU TRỮ"; }
         };
 
         document.getElementById('btnClone').onclick = async () => {
